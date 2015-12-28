@@ -1,21 +1,37 @@
 #pragma once
 #include "PasswdManager.hpp"
+#include "log.hpp"
 #include <gpgme.h>
+#include <stdexcept>
+#include <sstream>
 
 class GPGPasswdManager: public PasswdManager
 {
 public:
     GPGPasswdManager();
+
     void encrypt() override;
-    std::string findRecord(std::string keyword) override;
+    std::string dumpRecord() override;
+
+    /*Load file*/
     void readEncrypted(std::string fileName) override;
+    ~GPGPasswdManager() override;
+    void selectKey(size_t keyIdx);
+    void addRecord(const std::string &) override;
 private:
     /*GPG Context*/
-    gpgme_error_t error;
-    gpgme_engine_info_t info;
     gpgme_ctx_t context;
-    gpgme_key_t recipients[2] = {NULL, NULL};
-    gpgme_data_t clear_text, encrypted_text;
-    gpgme_encrypt_result_t  result;
-    gpgme_user_id_t user;
+    std::vector<gpgme_key_t> GPGkeys;
+    std::vector<std::string> records;
+
+    /*GPG Error check function*/
+    void checkGPGError(const gpgme_error_t& err)
+    {
+        if (err){
+            std::stringstream ss;
+            ss<<"GPG Error: "<<err<<std::endl;
+            LOG::writeLogErr((ss.str()).c_str());
+            throw std::runtime_error("GPG Error");
+        }
+    }
 };
