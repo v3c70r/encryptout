@@ -1,1 +1,1 @@
-add_library(pwdMgr App.cpp GPGPasswdManager.cpp log.cpp)
+add_library(pwdMgr GPGPasswdManager.cpp log.cpp)
