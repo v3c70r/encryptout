@@ -50,7 +50,7 @@ GPGPasswdManager::GPGPasswdManager()
     }
 }
 
-void GPGPasswdManager::readEncrypted(std::string fileName)
+void GPGPasswdManager::readEncrypted(const std::string& fileName)
 {
     try{
         ifstream is(fileName, ifstream::binary);
@@ -59,6 +59,7 @@ void GPGPasswdManager::readEncrypted(std::string fileName)
         is.seekg (0, is.beg);
         encryptedText.resize(length);
         is.read(&(encryptedText[0]), length);
+        is.close();
     }
     catch(ifstream::failure e)
     {
@@ -138,5 +139,18 @@ void GPGPasswdManager::selectKey(size_t keyIdx)
     catch (const std::out_of_range& oor){
         std::cerr<<"Key selecting out of range, using nullptr\n";
         recp[0] = nullptr;
+    }
+}
+
+void GPGPasswdManager::writeCipher(const std::string& fileName)
+{
+    try{
+        std::ofstream of(fileName);
+        of.write(&(encryptedText[0]), encryptedText.size());
+        of.close();
+    }
+    catch(std::ofstream::failure e)
+    {
+        throw std::runtime_error("Unable to write cipher");
     }
 }

@@ -31,7 +31,7 @@ public:
      *
      * @param fileName file that contains the cipher
      */
-    void readEncrypted(std::string fileName);
+    void readEncrypted(const std::string& fileName);
 
     /**
      * @brief Load cipher from buffer
@@ -50,6 +50,9 @@ public:
      * @param keyIdx 0 based key index listed by *listkey()*
      */
     void selectKey(size_t keyIdx);
+    /**
+     * @brief List all private keys
+     */
     void listKeys() const
     {
         std::cout<<"Listing private keys...\n";
@@ -63,6 +66,7 @@ public:
             std::cout<<std::endl;
         }
     }
+    void writeCipher(const std::string& fileName);
 private:
     /*GPG Context*/
     gpgme_ctx_t context;
@@ -71,7 +75,11 @@ private:
     std::vector<char> encryptedText;
     std::array<gpgme_key_t, 2> recp;
 
-    /*GPG Error check function*/
+    /**
+     * @brief GPG error check function
+     *
+     * @param err GPG error
+     */
     void checkGPGError(const gpgme_error_t& err) const
     {
         if (err){
