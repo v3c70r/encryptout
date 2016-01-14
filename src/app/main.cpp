@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     App& app = App::getInstance();
 
     cmdline::parser cmdParser;
-    cmdParser.add<std::string>("cipherFile", 'c', "Cipher databse", true, "");
+    cmdParser.add<std::string>("cipherFile", 'c', "Cipher database", true, "");
     cmdParser.add<std::string>("add", 'a', "Add a string as record", false);
     cmdParser.add("dump", 'd', "Dump record");
     cmdParser.add("list-keys", 'l', "List private keys");
