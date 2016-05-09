@@ -5,4 +5,4 @@ set(CMAKE_MODULE_PATH "${encryptout_SOURCE_DIR}/cmake")
 find_package(gpgme)
 
 add_executable(encryptout main.cpp App.cpp)
-target_link_libraries(encryptout pwdMgr gpgme)
+target_link_libraries(encryptout pwdMgr gpgme )

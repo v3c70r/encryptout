@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GPGPasswdManager.hpp"
 #include <cstring>
+#include <cstdlib>
 using std::ifstream;
 using std::runtime_error;
 

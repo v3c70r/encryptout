@@ -38,26 +38,28 @@ private:
 inline std::string generatePasswd(const size_t& length)
 {
     char cmd[] ="cat /dev/urandom |  head -n 2 | tail -n 1| base64 "; 
-    std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+    FILE* pipe=fopen(cmd, "r");
     if (!pipe) return "ERROR";
     char buffer[128];
     std::string result = "";
-    while (!feof(pipe.get())) {
-        if (fgets(buffer, 128, pipe.get()) != NULL)
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL)
             result += buffer;
     }
+    fclose(pipe);
     return result.substr(result.size()-length, length);
 }
 inline void printPasswd()
 {
     char cmd[] ="cat /dev/urandom |  head -n 2 | tail -n 1| base64 "; 
-    std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+    FILE *pipe=fopen(cmd, "r");
     if (!pipe) throw std::runtime_error("Invalid pip");
     char buffer[128];
     std::string result = "";
-    while (!feof(pipe.get())) {
-        if (fgets(buffer, 128, pipe.get()) != NULL)
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL)
             result += buffer;
     }
+    fclose(pipe);
     std::cout<<result;
 }
